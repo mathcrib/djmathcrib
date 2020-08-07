@@ -1,1 +1,1 @@
-web: gunicorn django_mathcrib.wsgi
+web: gunicorn djmathcrib.wsgi
