@@ -1,1 +1,1 @@
-web: gunicorn djmathcrib.wsgi
+web: gunicorn mathcrib.wsgi
