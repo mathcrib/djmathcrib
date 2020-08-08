@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
+{% load martortags %}
 
 {% block content %}
-    <h1>Mathcrib</h1>
+    {% if article %}
+        <h3>article.title</h3>
+        Автор {{ author }}
+        Дата публикации {{ article.created }}
+        </hr>
+        {{ article.text|safe_markdown }}
+    {% elif next %}
+        {% for node in next %}
+            <p>
+            <a {% if node.text %} href="{% url 'article' node.id %}" {% else %} href="{% url 'get_next' node.id %}" {% endif %}> {{ node.title }} </a>
+            </p>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
