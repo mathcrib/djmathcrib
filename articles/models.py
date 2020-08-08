@@ -42,7 +42,11 @@ class Article(MPTTModel):
         related_name='children', 
         verbose_name=_('Родительский раздел')
     )
+    
 
     class Meta:
         verbose_name = _('статья')
         verbose_name_plural = _('статьи')
+    
+    class MPTTMeta:
+        order_insertion_by = ['title']
