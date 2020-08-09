@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
-{% load martortags %}
 
 {% block content %}
     {% if article %}
-        <h3>article.title</h3>
+        <h3>{{ article.title }}</h3>
         Автор {{ author }}
         Дата публикации {{ article.created }}
         </hr>
-        {{ article.text|safe_markdown }}
+        {{ article.text|safe }}
     {% elif next %}
         {% for node in next %}
             <p>

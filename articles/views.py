@@ -5,10 +5,10 @@ from .models import Article
 
 def get_next(request, id=None):
     if id is None:
-        next = Article.objects.root_nodes()
+        next_article = Article.objects.root_nodes()
     else:    
-        next = get_object_or_404(Article, pk=id).get_children()
-    return render(request, "index.html", {"next": next})
+        next_article = get_object_or_404(Article, pk=id).get_children()
+    return render(request, "index.html", {"next": next_article})
 
 
 def get_article(request, id):

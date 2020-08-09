@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from martor.models import MartorField
+from ckeditor.fields import RichTextField
 from mptt.models import MPTTModel, TreeForeignKey
 
 User = get_user_model()
@@ -13,7 +13,7 @@ class Article(MPTTModel):
         verbose_name=_('Название'), 
         unique=True
     )
-    text = MartorField(
+    text = RichTextField(
         verbose_name=_('Текст статьи'), 
         null=True, 
         blank=True
@@ -42,7 +42,6 @@ class Article(MPTTModel):
         related_name='children', 
         verbose_name=_('Родительский раздел')
     )
-    
 
     class Meta:
         verbose_name = _('статья')
@@ -50,3 +49,6 @@ class Article(MPTTModel):
     
     class MPTTMeta:
         order_insertion_by = ['title']
+
+    def __str__(self):
+        return self.title
