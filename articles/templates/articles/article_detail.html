@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>{{ object.title }} | <small>Автор: {{ object.author }}</small></h1>
+    <p>{{ object.text|safe }}</p>
+    <p>Опубликовано: {{ object.created|date }}</p>
+    
+    {% if request.user.is_superuser%}
+        <a href="{% url 'article_update' pk=object.pk %}">Изменить</a>
+    {% endif %} 
+{% endblock %}

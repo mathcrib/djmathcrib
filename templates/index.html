@@ -10,7 +10,7 @@
     {% elif next %}
         {% for node in next %}
             <p>
-            <a {% if node.text %} href="{% url 'article' node.id %}" {% else %} href="{% url 'get_next' node.id %}" {% endif %}> {{ node.title }} </a>
+            <a {% if node.text %} href="{% url 'article_detail' node.id %}" {% else %} href="{% url 'get_next' node.id %}" {% endif %}> {{ node.title }} </a>
             </p>
         {% endfor %}
     {% endif %}

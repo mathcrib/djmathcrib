@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import martor.models
 import mptt.fields
 
 
@@ -28,11 +27,6 @@ class Migration(migrations.Migration):
             model_name='article',
             name='parent',
             field=mptt.fields.TreeForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='articles.Article', verbose_name='Родительский раздел'),
-        ),
-        migrations.AlterField(
-            model_name='article',
-            name='text',
-            field=martor.models.MartorField(blank=True, null=True, verbose_name='Текст статьи'),
         ),
         migrations.AlterField(
             model_name='article',
