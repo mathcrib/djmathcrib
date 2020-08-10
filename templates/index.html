@@ -1,17 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if article %}
-        <h3>{{ article.title }}</h3>
-        Автор {{ author }}
-        Дата публикации {{ article.created }}
-        </hr>
-        {{ article.text|safe }}
-    {% elif next %}
-        {% for node in next %}
+    {% for node in next %}
             <p>
             <a {% if node.text %} href="{% url 'article_detail' node.id %}" {% else %} href="{% url 'get_next' node.id %}" {% endif %}> {{ node.title }} </a>
             </p>
-        {% endfor %}
-    {% endif %}
+    {% endfor %}
 {% endblock %}
