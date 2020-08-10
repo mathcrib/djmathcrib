@@ -9909,4 +9909,9 @@ h3 {
   padding-top: 80px;
 }
 
+.img-max {
+  max-width: 800px;
+  width: 100%;
+}
+
 /*# sourceMappingURL=style.css.map */

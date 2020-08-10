@@ -13,6 +13,10 @@ def get_next(request, id=None):
     return render(request, "index.html", {"next": next_article})
 
 
+def home_page(request):
+    return render(request, "home.html")
+
+
 class ArticleListView(ListView):
     model = Article
 

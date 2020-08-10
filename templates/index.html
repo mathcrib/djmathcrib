@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% include 'jumbotron.html' %}
     {% for node in next %}
             <p>
             <a {% if node.text %} href="{% url 'article_detail' node.id %}" {% else %} href="{% url 'get_next' node.id %}" {% endif %}> {{ node.title }} </a>
