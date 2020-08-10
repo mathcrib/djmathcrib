@@ -1,21 +1,17 @@
 from django.urls import path
 
-from .views import (
-    ArticleDetailView,
-    ArticleCreateView,
-    ArticleUpdateView,
-    get_next
-)
+from .views import (ArticleCreateView, ArticleDetailView, ArticleUpdateView,
+                    get_next)
 
 urlpatterns = [
-    path('', get_next, name="root"),
+    path('navigate/', get_next, name="root"),
+    path('navigate/<int:id>/', get_next, name='get_next'),
     path('<int:pk>/read/', ArticleDetailView.as_view(), name='article_detail'),
     path('add/', ArticleCreateView.as_view(), name='article_create'),
     path(
-        'article/<int:pk>/',
+        '<int:pk>/update/',
         ArticleUpdateView.as_view(),
         name='article_update',
     ),
-    path('<int:id>/', get_next, name='get_next'),
-
+    
 ]

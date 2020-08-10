@@ -1,9 +1,8 @@
+from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-from ckeditor.fields import RichTextField
 from mptt.models import MPTTModel, TreeForeignKey
 
 User = get_user_model()
@@ -38,12 +37,12 @@ class Article(MPTTModel):
         null=True,
         blank=True,
         related_name='children',
-        verbose_name='Родительский раздел'
+        verbose_name=_('Родительский раздел')
     )
 
     class Meta:
-        verbose_name = 'Статья'
-        verbose_name_plural = 'Cтатьи'
+        verbose_name = _('cтатья')
+        verbose_name_plural = _('cтатьи')
 
     class MPTTMeta:
         order_insertion_by = ('title',)
