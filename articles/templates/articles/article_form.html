@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
+{% load add_css_class %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary"> Сохранить </button>
-    </form>
+<div class="row justify-content-md-center">
+    <div class="col-md-auto">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {% for field in form %}
+                <div class="form-group" aria-required="{% if field.required %}true{% else %}false{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-form-label text-md-right">{{ field.label }}</label>
+                    {{ field|addclass:"form-control"  }}
+                </div>
+            {% endfor %}
+
+
+
+            <button type="submit" class="btn btn-primary"> Сохранить </button>
+        </form>
+    </div>
+</div>
 {% endblock %}
