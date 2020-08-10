@@ -12,6 +12,14 @@ from django.utils.translation import gettext_lazy as _
 register = template.Library()
 
 def read(text):
-    return readtime.of_text(text).minutes
+    ret = readtime.of_text(text).minutes
+    last_dig = ret % 10
+    if last_dig == 1:
+        min = " минута"
+    elif last_dig in [2, 3, 4]:
+        min = " минуты"
+    else: 
+        min = " минут"
+    return str(ret) + min
 
 register.filter("readtime", read)

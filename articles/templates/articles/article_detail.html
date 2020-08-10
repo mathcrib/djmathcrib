@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>{{ object.title }} | <small>Автор: {{ object.author }}</small></h1>
-    <p>Время чтения: {{ object.text|readtime }} минута</p>
+    <p>Время чтения: {{ object.text|readtime }}</p>
     <p>{{ object.text|safe }}</p>
     <p>Опубликовано: {{ object.created|date }}</p>
     
