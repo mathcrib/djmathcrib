@@ -16,7 +16,7 @@
         </div>
             {% else %}
                 {% for child in object.get_children %}
-                    <a href="{{ child.get_absolute_url }}">{{ child.title }}</a>
+                    <p><a href="{{ child.get_absolute_url }}">{{ child.title }}</a></p>
                 {% empty %}
                     Здесь пока пусто.
                 {% endfor %}
