@@ -5,6 +5,7 @@ from articles.views import home_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', include('django.contrib.auth.urls')),
     path('articles/', include('articles.urls')),
     path('', home_page, name='home_page'),
 ]

@@ -22,6 +22,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # project app
+    'users',
+    'articles',
+    # django app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,9 +36,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
-    # project app
-    'users',
-    'articles',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -62,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mathcrib.context_processor.get_category_tree',
             ],
         },
     },
@@ -128,7 +130,11 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
+# Login
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = 'home_page'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_CONFIGS = {
     'default': {
         'width': '100%',
