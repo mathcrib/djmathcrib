@@ -3,12 +3,23 @@
 
 
 {% block content %}
-    <h1>{{ object.title }} | <small>Автор: {{ object.author }}</small></h1>
-    <p>Время чтения: {{ object.text|readtime }}</p>
-    <p>{{ object.text|safe }}</p>
-    <p>Опубликовано: {{ object.created|date }}</p>
-    
-    {% if request.user.is_superuser%}
-        <a href="{% url 'article_update' pk=object.pk %}">Изменить</a>
-    {% endif %} 
+    <div class="col-md-8 blog-main">
+        {% if object.text %}
+        <div class="blog-post">
+            <h2 class="blog-post-title">{{ object.title }}</h2>
+            <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
+            <p class="blog-post-meta">Время чтения: {{ object.text|readtime }} </p>
+            {% if request.user.is_superuser%}
+                <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
+            {% endif %}
+            <p>{{ object.text|safe }}</p>
+        </div>
+            {% else %}
+                {% for child in object.get_children %}
+                    <a href="{{ child.get_absolute_url }}">{{ child.title }}</a>
+                {% empty %}
+                    Здесь пока пусто.
+                {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}

@@ -4,6 +4,13 @@
 {% block content %}
 <div class="row justify-content-md-center">
     <div class="col-md-auto">
+
+        {% for error in form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.media }}
@@ -13,9 +20,6 @@
                     {{ field|addclass:"form-control"  }}
                 </div>
             {% endfor %}
-
-
-
             <button type="submit" class="btn btn-primary"> Сохранить </button>
         </form>
     </div>

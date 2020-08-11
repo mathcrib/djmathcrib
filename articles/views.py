@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -25,9 +26,10 @@ class ArticleDetailView(DetailView):
     model = Article
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     fields = ('title', 'text', 'parent')
+    redirect_field_name = 'next'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
