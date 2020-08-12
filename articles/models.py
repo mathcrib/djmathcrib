@@ -1,8 +1,9 @@
-from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.models import MPTTModel, TreeForeignKey
 
 User = get_user_model()
@@ -14,7 +15,7 @@ class Article(MPTTModel):
         verbose_name=_('Название'),
         unique=True
     )
-    text = RichTextField(verbose_name=_('Текст статьи'), null=True, blank=True)
+    text = RichTextUploadingField(verbose_name=_('Текст статьи'), null=True, blank=True)
     author = models.ForeignKey(
         User,
         models.SET_NULL,

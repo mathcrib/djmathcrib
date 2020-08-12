@@ -135,6 +135,10 @@ LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = 'home_page'
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+
 CKEDITOR_CONFIGS = {
     'default': {
         'width': '100%',
@@ -142,15 +146,14 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Mathjax'],
             {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
             {'name': 'insert',
-             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Iframe', ]},
+            {'name': 'styles', 'items': ['CopyFormatting', 'Styles', 'Format', 'Font', 'FontSize']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
-            ['-', 'Source',]
+            ['-', 'Source', 'Preview', 'Maximize']
         ],
         'toolbar': 'Basic',
         'mathJaxLib': '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML',
-        'extraPlugins': ','.join(['mathjax', ]),
+        'extraPlugins': ','.join(['mathjax', 'uploadwidget', 'uploadimage']),
     },
 }
 
