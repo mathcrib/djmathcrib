@@ -26,8 +26,8 @@
             {% endfor %}
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" name="q" id="q">
         </form>
         <ul class="navbar-nav">
             {% if not request.user.is_authenticated %}

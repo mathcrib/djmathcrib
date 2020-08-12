@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -19,7 +20,13 @@ def home_page(request):
 
 
 class ArticleListView(ListView):
+    template_name = 'article_list.html'
     model = Article
+    paginate_by = 10
+    
+    def get_queryset(self):
+        q = self.request.GET.get('q')
+        return Article.objects.filter(Q(text__contains=q)|Q(title__contains=q))
 
 
 class ArticleDetailView(DetailView):
