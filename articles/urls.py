@@ -18,5 +18,6 @@ urlpatterns = [
         ArticleUpdateView.as_view(),
         name='article_update',
     ),
+    path('', ArticleListView.as_view(), name='article_list')
     
 ]

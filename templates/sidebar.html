@@ -1,0 +1,20 @@
+{% load mptt_tags %}
+{% full_tree_for_model articles.Article as article %}
+
+<ul class="root">
+
+    {% recursetree article %}
+        <li>
+            {% if node.text %}
+                <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
+            {% else %}
+                <p>{{ node.title }}</p>
+            {% endif %}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
