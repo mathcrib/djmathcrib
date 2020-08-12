@@ -5,9 +5,10 @@
 Исключение для китайского, японского и корейского языков (500 символов/мин)
 """
 
-import readtime
 from django import template
 from django.utils.translation import gettext_lazy as _
+
+import readtime
 
 register = template.Library()
 
