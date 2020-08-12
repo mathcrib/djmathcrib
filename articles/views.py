@@ -21,6 +21,9 @@ def home_page(request):
 class ArticleListView(ListView):
     model = Article
 
+    def get_queryset(self):
+        return Article.objects.filter(text__isnull=False)
+
 
 class ArticleDetailView(DetailView):
     model = Article

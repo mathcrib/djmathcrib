@@ -1,9 +1,27 @@
 {% extends 'base.html' %}
+{% load read_time %}
 
 {% block content %}
-    {% for node in next %}
-        <p>
-        <a {% if node.text %} href="{% url 'article_detail' node.id %}" {% else %} href="{% url 'get_next' node.id %}" {% endif %}> {{ node.title }} </a>
-        </p>
-    {% endfor %}
+<div class="row">
+    <div class="col d-md-none d-lg-block">
+        {% include 'sidebar.html' %}
+    </div>
+    <div class="col-9 blog-main">
+        {% for object in object_list %}
+            <div class="blog-post">
+                <h2 class="blog-post-title">
+                    <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+                </h2>
+                <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
+                <p class="blog-post-meta">Время чтения: {{ object.text|readtime }} </p>
+                {% if request.user.is_superuser%}
+                    <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
+                {% endif %}
+                <p>{{ object.text|safe|truncatewords:100 }}</p>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
 {% endblock %}

@@ -3,7 +3,11 @@
 
 
 {% block content %}
-    <div class="col-md-8 blog-main">
+<div class="row">
+    <div class="col d-md-none d-lg-block">
+        {% include 'sidebar.html' %}
+    </div>
+    <div class="col-9 blog-main">
         {% if object.text %}
         <div class="blog-post">
             <h2 class="blog-post-title">{{ object.title }}</h2>
@@ -22,4 +26,5 @@
                 {% endfor %}
         {% endif %}
     </div>
+</div>
 {% endblock %}
