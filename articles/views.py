@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -42,3 +43,11 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 class ArticleUpdateView(UpdateView):
     model = Article
     fields = ('title', 'text', 'parent')
+
+
+class ArticleSearchListView(ListView):
+    model = Article
+
+    def get_queryset(self):
+        q = self.request.GET.get('q')
+        return Article.objects.filter(Q(text__icontains=q) | Q(title__icontains=q)) 
