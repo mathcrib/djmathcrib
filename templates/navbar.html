@@ -26,8 +26,12 @@
             {% endfor %}
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+        <form action="{% url 'search' %}" method="GET">
+            <div class="form-check">
+                <small><input class="form-check-input" type="checkbox" id="separate" name="separate">
+                <label class="form-check-label" for="separate">Поиск отдельно по словам</label></small>
+            </div>
+            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="q" name="q" required>
         </form>
         <ul class="navbar-nav">
             {% if not request.user.is_authenticated %}
