@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (ArticleCreateView, ArticleDetailView, ArticleListView,
-                    ArticleSearchListView, ArticleUpdateView, get_next)
+                    ArticleUpdateView, get_next)
 
 urlpatterns = [
     path('navigate/', get_next, name="root"),
@@ -14,6 +14,6 @@ urlpatterns = [
         name='article_update',
     ),
     path('', ArticleListView.as_view(), name='article_list'),
-    path('search/', ArticleSearchListView.as_view(), name='search')
+    path('search/', ArticleListView.as_view(), name='search')
     
 ]
