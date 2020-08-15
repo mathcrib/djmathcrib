@@ -1,22 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 from .models import Article
 
 
-def get_next(request, id=None):
-    if id is None:
-        next_article = Article.objects.root_nodes()
-    else:
-        next_article = get_object_or_404(Article, pk=id).get_children()
-    return render(request, "index.html", {"next": next_article})
-
-
 def home_page(request):
-    return render(request, "home.html")
+    return render(request, "index.html")
 
 
 class ArticleListView(ListView):
@@ -26,13 +18,14 @@ class ArticleListView(ListView):
         q = self.request.GET.get('q', None)
 
         if q is None:
-            return Article.objects.filter(text__isnull=False)
+            return Article.objects.get_articles()
 
         separate = self.request.GET.get('separate', None)
         if separate is None:
             return Article.objects.filter(
-                   Q(text__icontains=q) | Q(title__icontains=q))
-                   
+                Q(text__icontains=q) | Q(title__icontains=q)
+            )
+
         ids = set()
         for query in q.split():
             queryset = set(Article.objects.filter(
@@ -59,4 +52,4 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
 class ArticleUpdateView(UpdateView):
     model = Article
-    fields = ('title', 'text', 'parent')
+    fields = ('title', 'text', 'parent', 'is_published')

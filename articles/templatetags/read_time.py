@@ -6,11 +6,11 @@
 """
 
 from django import template
-from django.utils.translation import gettext_lazy as _
 
 import readtime
 
 register = template.Library()
+
 
 def read(text):
     ret = readtime.of_text(text).minutes
@@ -22,5 +22,6 @@ def read(text):
     else: 
         min = " минут"
     return str(ret) + min
+
 
 register.filter("readtime", read)

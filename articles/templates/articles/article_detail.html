@@ -22,7 +22,7 @@
                 {% for child in object.get_children %}
                     <p><a href="{{ child.get_absolute_url }}">{{ child.title }}</a></p>
                 {% empty %}
-                    Здесь пока пусто.
+                    Публикаций пока нет.
                 {% endfor %}
         {% endif %}
     </div>

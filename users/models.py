@@ -18,3 +18,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    @property
+    def is_personal(self):
+        return self.role == UserRole.MODERATOR or self.is_superuser
