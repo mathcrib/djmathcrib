@@ -1,10 +1,11 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.models import MPTTModel, TreeForeignKey
+
+from .templatetags.read_time import read
 
 User = get_user_model()
 
@@ -40,6 +41,7 @@ class Article(MPTTModel):
         related_name='children',
         verbose_name=_('Родительский раздел')
     )
+    read_time = models.CharField(max_length=50, blank=True, null=True,)
 
     class Meta:
         verbose_name = _('cтатья')
@@ -53,3 +55,8 @@ class Article(MPTTModel):
 
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'pk': self.id})
+
+    def save(self, *args, **kwargs):
+        if self.text:
+            self.read_time = read(self.text)
+        return super().save(*args, **kwargs)
