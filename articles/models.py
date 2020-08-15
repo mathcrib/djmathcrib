@@ -1,13 +1,39 @@
-from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from ckeditor_uploader.fields import RichTextUploadingField
+from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
 
 from .templatetags.read_time import read
 
 User = get_user_model()
+
+
+class ArticleModelManager(TreeManager):
+    """
+    Кастомный менеджер запросов к БД.
+    """
+
+    def published(self):
+        """
+        Возвращает queryset c опубликованными сущностями: категории, статьи.
+        """
+        return self.filter(is_published=True)
+
+    def get_category(self):
+        """
+        Возвращает queryset, содержащий только опубликованные категории.
+        """
+        return self.filter(is_published=True, is_category=False)
+
+    def get_articles(self):
+        """
+        Возвращает queryset, содержащий только опубликованные статьи.
+        """
+        return self.filter(is_published=True, is_category=False)
 
 
 class Article(MPTTModel):
@@ -16,7 +42,11 @@ class Article(MPTTModel):
         verbose_name=_('Название'),
         unique=True
     )
-    text = RichTextUploadingField(verbose_name=_('Текст статьи'), null=True, blank=True)
+    text = RichTextUploadingField(
+        verbose_name=_('Текст статьи'),
+        null=True,
+        blank=True,
+    )
     author = models.ForeignKey(
         User,
         models.SET_NULL,
@@ -41,7 +71,22 @@ class Article(MPTTModel):
         related_name='children',
         verbose_name=_('Родительский раздел')
     )
-    read_time = models.CharField(max_length=50, blank=True, null=True,)
+    read_time = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name=_('Время чтения'),
+    )
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name=_('Опубликована'),
+    )
+    is_category = models.BooleanField(
+        default=False,
+        verbose_name=_('Категория'),
+    )
+
+    objects = ArticleModelManager()
 
     class Meta:
         verbose_name = _('cтатья')
@@ -57,6 +102,6 @@ class Article(MPTTModel):
         return reverse('article_detail', kwargs={'pk': self.id})
 
     def save(self, *args, **kwargs):
-        if self.text:
+        if not self.is_category:
             self.read_time = read(self.text)
         return super().save(*args, **kwargs)

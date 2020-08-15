@@ -22,9 +22,22 @@
                 {% for child in object.get_children %}
                     <p><a href="{{ child.get_absolute_url }}">{{ child.title }}</a></p>
                 {% empty %}
-                    Здесь пока пусто.
+                    Публикаций пока нет.
                 {% endfor %}
         {% endif %}
+        <div class="row">
+            <div class="col-6 text-left">
+                {% if object.get_previous_sibling %}
+                    <a href="{{ object.get_previous_sibling.get_absolute_url }}"><-- {{ object.get_previous_sibling.title }}</a>
+                {% endif %}
+            </div>
+            <div class="col-6 text-right">
+                {% if object.get_next_sibling %}
+                    <a href="{{ object.get_next_sibling.get_absolute_url }}">{{ object.get_next_sibling.title }} --></a>
+                {% endif %}
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}

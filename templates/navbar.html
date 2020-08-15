@@ -1,4 +1,4 @@
-{% load static mptt_tags %}
+{% load mptt_tags %}
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
     <a class="navbar-brand" href="{% url 'home_page' %}">Mathcrib</a>
@@ -8,29 +8,23 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'article_create' %}">Добавить статью</a>
-            </li>
-
-            {% for node in category_tree %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ node.title }}
-                </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for category in node.get_children %}
-                    <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.title }}</a>
-                {% endfor %}
-            </div>
-            </li>
-            {% endfor %}
-
+             {% recursetree category_tree %}
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ node.title }}
+                        </a>
+                    {% if not node.is_leaf_node %}
+                        {% drilldown_tree_for_node node as child %}
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for child in node.get_children %}
+                                <a class="dropdown-item" href="{{ child.get_absolute_url }}">{{ child.title }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
         </ul>
         <form action="{% url 'search' %}" method="GET">
-            <div class="form-check">
-                <small class="form-text text-muted"><input class="form-check-input" type="checkbox" id="separate" name="separate">
-                <label class="form-check-label" for="separate">Поиск отдельно по словам</label></small>
-            </div>
             <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="q" name="q" required>
         </form>
         <ul class="navbar-nav">
@@ -38,8 +32,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Войти</a>
                 </li>
+
             {% endif %}
             {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'article_create' %}">Добавить статью</a>
+                </li>
+                {% if request.user.is_personal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'control_panel' %}">Управление</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
                 </li>

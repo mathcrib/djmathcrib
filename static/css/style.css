@@ -9468,4 +9468,25 @@ body {
   width: 100%;
 }
 
+.math-tex {
+  font-size: 18px;
+}
+
+.root {
+  list-style-type: none;
+}
+
+.children {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.sidebar-text {
+  display: block;
+  margin-block-start: 0.5em !important;
+  margin-block-end: 0.5em !important;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
 /*# sourceMappingURL=style.css.map */
