@@ -146,7 +146,7 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Mathjax'],
             {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
             {'name': 'insert',
-             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Iframe', ]},
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Blockquote', ]},
             {'name': 'styles', 'items': ['CopyFormatting', 'Styles', 'Format', 'Font', 'FontSize']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
             ['-', 'Source', 'Preview', 'Maximize']
