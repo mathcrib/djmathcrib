@@ -12,7 +12,7 @@
 
             <div class="list-group">
                 <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action
-                   {% if not article.is_published %}list-group-item-warning{% endif %}  ">
+                   {% if not article.is_published %}list-group-item-info{% endif %}  ">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ article.title }}</h5>
                         <small>Создано: {{ article.created|date }}</small>
