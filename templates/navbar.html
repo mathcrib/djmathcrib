@@ -8,19 +8,21 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            {% for node in category_tree %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ node.title }}
-                </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for category in node.get_children %}
-                    <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.title }}</a>
-                {% endfor %}
-            </div>
-            </li>
-            {% endfor %}
-
+             {% recursetree category_tree %}
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ node.title }}
+                        </a>
+                    {% if not node.is_leaf_node %}
+                        {% drilldown_tree_for_node node as child %}
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for child in node.get_children %}
+                                <a class="dropdown-item" href="{{ child.get_absolute_url }}">{{ child.title }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
         </ul>
         <form action="{% url 'search' %}" method="GET">
             <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="q" name="q" required>

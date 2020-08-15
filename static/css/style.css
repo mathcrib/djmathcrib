@@ -9478,6 +9478,7 @@ body {
 
 .children {
   list-style-type: none;
+  padding-left: 20px;
 }
 
 .sidebar-text {

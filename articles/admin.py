@@ -26,6 +26,8 @@ admin.site.register(
     list_display=(
         'tree_actions',
         'something',
+        'is_published',
+        'is_category',
     ),
     list_display_links=(
         'something',
