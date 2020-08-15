@@ -13,7 +13,7 @@
                     <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
                 </h2>
                 <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
-                <p class="blog-post-meta">Время чтения: {{ object.text|readtime }} </p>
+                <p class="blog-post-meta">Время чтения: {{ object.read_time }} </p>
                 {% if request.user.is_superuser%}
                     <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
                 {% endif %}
