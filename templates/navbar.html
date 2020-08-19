@@ -25,7 +25,7 @@
             {% endrecursetree %}
         </ul>
         <form action="{% url 'search' %}" method="GET">
-            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="q" name="q" required>
+            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="text" name="text" required>
         </form>
         <ul class="navbar-nav">
             {% if not request.user.is_authenticated %}

@@ -1,9 +1,8 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -75,7 +74,7 @@ class Article(MPTTModel):
         max_length=50,
         blank=True,
         null=True,
-        verbose_name=_('Время чтения'),
+        verbose_name=_('Время чтения статьи (мин)'),
     )
     is_published = models.BooleanField(
         default=False,
