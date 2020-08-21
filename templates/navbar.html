@@ -39,8 +39,12 @@
                     <a class="nav-link" href="{% url 'article_create' %}">Добавить статью</a>
                 </li>
                 {% if request.user.is_personal %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'control_panel' %}">Управление</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Управление</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'article_panel' %}">Статьи</a>
+                          <a class="dropdown-item" href="{% url 'invitations' %}">Приглашения</a>
+                        </div>
                     </li>
                 {% endif %}
                 <li class="nav-item">

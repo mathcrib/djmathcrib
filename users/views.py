@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import View
 
 from articles.models import Article
+from .models import InvitedUser
 
 
 class ModeratorControlPanelView(View):
@@ -14,3 +15,12 @@ class ModeratorControlPanelView(View):
             'articles': articles,
         }
         return render(request, 'users/control_panel.html', context=context)
+
+
+class InvitationView(View):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'invited': InvitedUser.objects.all()
+        }
+        return render(request, 'users/invitation.html', context=context)
