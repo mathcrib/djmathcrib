@@ -1,0 +1,15 @@
+{% for object in object_list %}
+<div class="blog-post">
+    <h2 class="blog-post-title">
+        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+    </h2>
+    <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
+    <p class="blog-post-meta">Время чтения: {{ object.read_time }} </p>
+    {% if request.user.is_superuser%}
+    <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
+    {% endif %}
+    <p>{{ object.text|safe|truncatewords:100 }}</p>
+</div>
+{% if not forloop_last %}
+<hr> {% endif %}
+{% endfor %}

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third party app
+    'django_filters',
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
