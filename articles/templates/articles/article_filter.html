@@ -10,7 +10,7 @@
         <div class="container">
             <form method="get" action="{% url 'search' %}">
                 <div class="input-group mb-3">
-                    <input type="search" class="form-control" id="text" placeholder="Поиск">
+                    <input type="search" class="form-control" id="text" name="text" placeholder="Поиск">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit">Поиск</button>
                     </div>
@@ -27,8 +27,8 @@
                 <div class="collapse" id="collapseFilter">
                     <div class="card card-body">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="separate">
-                            <label class="form-check-label" for="separate">Поиск каждого слова отдельно</label>
+                            <input type="checkbox" class="form-check-input" id="separate" name="separate">
+                            <label class="form-check-label" for="separate"> Искать каждое слово отдельно</label>
                         </div>
                         {% for field in filter.form %}
                         <div class="form-group">

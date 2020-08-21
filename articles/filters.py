@@ -1,3 +1,5 @@
+import re
+
 import django_filters as filters
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -14,19 +16,21 @@ class ArticleFilter(filters.FilterSet):
 
     def filter_text(self, queryset, name, value):
         separate = self.request.GET.get('separate', None)
-
+        
         if separate is None:
-            return queryset.filter(
-                Q(text__icontains=value) | Q(title__icontains=value)
+            values = [value]
+        else:
+            values = re.sub("[^\w]", " ", value).split()
+            
+        search = []
+        for value in values:
+            search.append(
+                "Q(text__icontains='" + value +
+                "') | Q(title__icontains='" + value +"')"
             )
-        print(value)
-        ids = set()
-        for word in name.split():
-            query = set(queryset.filter(
-                Q(text__icontains=value) | Q(title__icontains=value)
-                ).values_list('pk', flat=True))
-            ids = ids.union(query)
-        return queryset.filter(pk__in=ids)
+        
+        return queryset.filter(
+            eval(" | ".join(search), {'__builtins__': None,  'Q': Q}))
 
     class Meta:
         model = Article
