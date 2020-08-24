@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
-from .models import User
+from .models import User, InvitedUser
 
 
 class CustomUserAdmin(BaseUserAdmin):
@@ -24,5 +24,13 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('username',)
 
 
+class InvitedUserAdmin(admin.ModelAdmin):
+    list_display = ('inviting', 'invited', 'created', 'invite_url')
+    search_fields = ('invited',)
+    list_filter = ('created',)
+    empty_value_display = '-пусто-'
+
+
+admin.site.register(InvitedUser, InvitedUserAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
