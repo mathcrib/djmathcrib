@@ -44,10 +44,23 @@ class InvitedUser(models.Model):
     )
     created = models.DateTimeField(
         auto_now=True,
-        verbose_name=_('Дата приглашения')
+        verbose_name=_('Дата приглашения'),
     )
-    key = models.CharField(
+    invite_key = models.CharField(
         max_length=50,
-        verbose_name=_('Ключ')
+        blank=True,
+        null=True,
+        verbose_name=_('Инвайт ключ'),
     )
+    invite_url = models.CharField(
+        max_length=250,
+        blank=True,
+        null=True,
+        verbose_name=_('Ссылка для регистрации'),
+    )
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name = 'Приглашение'
+        verbose_name_plural = 'Приглашения'
 
