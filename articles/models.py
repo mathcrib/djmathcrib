@@ -1,3 +1,4 @@
+import readtime
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -5,8 +6,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
-
-from .templatetags.read_time import read
 
 User = get_user_model()
 
@@ -70,11 +69,10 @@ class Article(MPTTModel):
         related_name='children',
         verbose_name=_('Родительский раздел')
     )
-    read_time = models.CharField(
-        max_length=50,
+    read_time = models.PositiveSmallIntegerField(
         blank=True,
         null=True,
-        verbose_name=_('Время чтения статьи (мин)'),
+        verbose_name=_('Время чтения статьи'),
     )
     is_published = models.BooleanField(
         default=False,
@@ -100,7 +98,17 @@ class Article(MPTTModel):
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'pk': self.id})
 
+    def get_full_read_time(self):
+        last_dig = self.read_time % 10
+        if last_dig == 1:
+            min = " минута"
+        elif last_dig in [2, 3, 4]:
+            min = " минуты"
+        else: 
+            min = " минут"
+        return str(self.read_time) + min
+
     def save(self, *args, **kwargs):
         if not self.is_category:
-            self.read_time = read(self.text)
+            self.read_time = readtime.of_text(self.text).minutes
         return super().save(*args, **kwargs)
