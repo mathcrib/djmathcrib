@@ -24,9 +24,11 @@
                 </li>
             {% endrecursetree %}
         </ul>
-        <form action="{% url 'search' %}" method="GET">
-            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="text" name="text" required>
-        </form>
+        {% if request.path != '/articles/search/' %}
+            <form action="{% url 'search' %}" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="text" name="text" required>
+            </form>
+        {% endif %}
         <ul class="navbar-nav">
             {% if not request.user.is_authenticated %}
                 <li class="nav-item">
