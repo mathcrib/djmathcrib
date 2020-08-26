@@ -1,11 +1,11 @@
 import re
 
-import django_filters as filters
 from django import forms
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from django_filters.widgets import RangeWidget
+
+import django_filters as filters
 
 from .models import Article
 
@@ -20,17 +20,20 @@ ARTICLE_LENGTH = (
 
 class ArticleFilter(filters.FilterSet):
     text = filters.CharFilter(method='filter_text')
-    author = filters.ModelChoiceFilter(queryset=User.objects.all(), empty_label='все')
+    author = filters.ModelChoiceFilter(
+        queryset=User.objects.all(),
+        empty_label='все',
+    )
     read_time = filters.ChoiceFilter(
-        choices=ARTICLE_LENGTH, 
-        widget=forms.RadioSelect, 
-        empty_label='любое', 
+        choices=ARTICLE_LENGTH,
+        widget=forms.RadioSelect,
+        empty_label='любое',
         method='filter_read_time',
     )
     separate = filters.BooleanFilter(
-        widget=forms.CheckboxInput, 
-        label='Искать отдельно каждое слово', 
-        method='filter_none'
+        widget=forms.CheckboxInput,
+        label='Искать отдельно каждое слово',
+        method='filter_none',
     )
 
     def filter_none(self, queryset, name, value):
@@ -47,21 +50,21 @@ class ArticleFilter(filters.FilterSet):
 
     def filter_text(self, queryset, name, value):
         separate = self.request.GET.get('separate', None)
-        
+
         if separate is None:
             values = [value]
         else:
             values = re.sub("[^\w]", " ", value).split()
-            
+
         search = []
         for value in values:
             search.append(
                 "Q(text__icontains='" + value +
-                "') | Q(title__icontains='" + value +"')"
+                "') | Q(title__icontains='" + value + "')"
             )
-        
+
         return queryset.filter(
-            eval(" | ".join(search), {'__builtins__': None,  'Q': Q}))
+            eval(" | ".join(search), {'__builtins__': None, 'Q': Q}))
 
     class Meta:
         model = Article

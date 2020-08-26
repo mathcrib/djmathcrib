@@ -1,9 +1,10 @@
-import readtime
-from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+import readtime
+from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -104,7 +105,7 @@ class Article(MPTTModel):
             min = " минута"
         elif last_dig in [2, 3, 4]:
             min = " минуты"
-        else: 
+        else:
             min = " минут"
         return str(self.read_time) + min
 

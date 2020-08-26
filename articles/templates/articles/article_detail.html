@@ -6,13 +6,52 @@
     <div class="col d-md-none d-lg-block">
         {% include 'sidebar.html' %}
     </div>
+
+{% if not object.is_published %}
+    <div class="col-9 blog-main">
+        {% if object.text %}
+            <p class="text-warning">Статья проходит модерацию.</p>
+            {% if request.user == object.author or request.user.is_personal %}
+                <div class="blog-post">
+                    <h2 class="blog-post-title">{{ object.title }}</h2>
+                    <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
+                    <p class="blog-post-meta">Время чтения: {{ object.get_full_read_time }} </p>
+                    {% if request.user == object.author or request.user.is_personal %}
+                        <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
+                    {% endif %}
+                    <p>{{ object.text|safe }}</p>
+                </div>
+            {% endif %}
+        {% else %}
+            {% for child in object.get_children %}
+                <p><a href="{{ child.get_absolute_url }}">{{ child.title }}</a></p>
+            {% empty %}
+                Публикаций пока нет.
+            {% endfor %}
+
+        {% endif %}
+        <div class="row">
+            <div class="col-6 text-left">
+                {% if object.get_previous_sibling %}
+                    <a href="{{ object.get_previous_sibling.get_absolute_url }}"><-- {{ object.get_previous_sibling.title }}</a>
+                {% endif %}
+            </div>
+            <div class="col-6 text-right">
+                {% if object.get_next_sibling %}
+                    <a href="{{ object.get_next_sibling.get_absolute_url }}">{{ object.get_next_sibling.title }} --></a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+{% else %}
     <div class="col-9 blog-main">
         {% if object.text %}
         <div class="blog-post">
             <h2 class="blog-post-title">{{ object.title }}</h2>
             <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
             <p class="blog-post-meta">Время чтения: {{ object.get_full_read_time }} </p>
-            {% if request.user.is_superuser%}
+            {% if request.user == object.author or request.user.is_personal %}
                 <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
             {% endif %}
             <p>{{ object.text|safe }}</p>
@@ -38,5 +77,6 @@
         </div>
 
     </div>
+{% endif %}
 </div>
 {% endblock %}

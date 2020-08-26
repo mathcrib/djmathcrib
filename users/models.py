@@ -63,4 +63,3 @@ class InvitedUser(models.Model):
         ordering = ['-created']
         verbose_name = 'Приглашение'
         verbose_name_plural = 'Приглашения'
-

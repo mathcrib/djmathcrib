@@ -1,12 +1,13 @@
 from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView
 from django.views.generic.base import View
 
 from articles.models import Article
+
+from .forms import CreationForm
 from .models import InvitedUser
 from .utilits import invite_key_generator
-from .forms import CreationForm
 
 
 class ModeratorControlPanelView(View):
@@ -31,7 +32,9 @@ class InvitationView(View):
 
     def post(self, request, *args, **kwargs):
         invite_key = invite_key_generator(length=20)
-        invite_url = request.build_absolute_uri(f'/users/signup/?key={invite_key}')
+        invite_url = request.build_absolute_uri(
+            f'/users/signup/?key={invite_key}',
+        )
         InvitedUser.objects.create(
             inviting=request.user,
             invite_url=invite_url,
@@ -70,7 +73,11 @@ class SignUpView(CreateView):
         key = request.POST.get('key', None)
         if key:
             form = CreationForm(request.POST)
-            invite = get_object_or_404(InvitedUser, invite_key=key, invited=None)
+            invite = get_object_or_404(
+                InvitedUser,
+                invite_key=key,
+                invited=None,
+            )
             if form.is_valid():
                 user = form.save()
                 invite.invited = user
@@ -78,4 +85,3 @@ class SignUpView(CreateView):
                 return redirect('login')
             return render(request, 'users/signup.html', {'form': form})
         raise Http404('Такой страницы не существует.')
-
