@@ -12,4 +12,6 @@
 </div>
 {% if not forloop_last %}
 <hr> {% endif %}
+{% empty %}
+    <p>Ничего не найдено. Попробуйте изменить запрос.</p>
 {% endfor %}

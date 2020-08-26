@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Последние приглашения</h1>
+<table class="table">
+  <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">Пригласивший</th>
+        <th scope="col">Приглашенный</th>
+        <th scope="col">Инвайт</th>
+        <th scope="col">Дата регистрации</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in invited %}
+        <tr>
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.inviting }}</td>
+            {% if item.invited %}
+                <td>{{ item.invited }}</td>
+            {% else %}
+                <td>Ожидание регистрации</td>
+            {% endif %}
+          <td>{{ item.invite_url }}</td>
+          <td>{{ item.created }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    <form method="post" action="{% url 'invitations' %}">
+        {% csrf_token %}
+        <input class="btn btn-primary float-right" type="submit" title="Создать" value="Создать">
+    </form>
+{% endblock %}

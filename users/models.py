@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class UserRole(models.TextChoices):
@@ -22,3 +23,44 @@ class User(AbstractUser):
     @property
     def is_personal(self):
         return self.role == UserRole.MODERATOR or self.is_superuser
+
+
+class InvitedUser(models.Model):
+    inviting = models.ForeignKey(
+        User,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='inviting',
+        verbose_name=_('Пригласивший'),
+    )
+    invited = models.ForeignKey(
+        User,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='invited',
+        verbose_name=_('Приглашенный'),
+    )
+    created = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_('Дата приглашения'),
+    )
+    invite_key = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name=_('Инвайт ключ'),
+    )
+    invite_url = models.CharField(
+        max_length=250,
+        blank=True,
+        null=True,
+        verbose_name=_('Ссылка для регистрации'),
+    )
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name = 'Приглашение'
+        verbose_name_plural = 'Приглашения'
+
