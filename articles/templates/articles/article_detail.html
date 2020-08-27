@@ -4,7 +4,7 @@
 {% block content %}
 <div class="row">
     <div class="col d-md-none d-lg-block">
-        {% include 'sidebar.html' %}
+        {% include 'sidebar.html' with current_node=object %}
     </div>
 
     <div class="col-9 blog-main">

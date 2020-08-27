@@ -13,7 +13,7 @@ def home_page(request):
 
 class ArticleListView(ListView):
     model = Article
-    queryset = Article.objects.filter(is_category=False)
+    queryset = Article.objects.filter(is_category=False, is_published=True)
 
 
 class ArticleDetailView(DetailView):
