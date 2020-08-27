@@ -2,18 +2,20 @@
 {% full_tree_for_model articles.Article as article %}
 
 <ul class="root">
-    {% recursetree category_tree %}
-        <li>
-            {% if not node.is_category %}
-                <p class="sidebar-text"><a href="{{ node.get_absolute_url }}">{{ node.title }}</a></p>
-            {% else %}
-                <p class="sidebar-text">{{ node.title }}</p>
-            {% endif %}
-            {% if not node.is_leaf_node %}
-                <ul class="children">
-                    {{ children }}
-                </ul>
-            {% endif %}
-        </li>
-    {% endrecursetree %}
+    {% if current_node %}
+        {% recursetree current_node.get_family %}
+            <li>
+                {% if not node.is_category %}
+                    <p class="sidebar-text"><a href="{{ node.get_absolute_url }}">{{ node.title }}</a></p>
+                {% else %}
+                    <p class="sidebar-text" {% if node.level == 0 %}hidden{% endif %}>{{ node.title }}</p>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    {% endif %}
 </ul>

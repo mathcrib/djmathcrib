@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -12,10 +13,36 @@ def home_page(request):
 
 class ArticleListView(ListView):
     model = Article
+    queryset = Article.objects.filter(is_category=False, is_published=True)
 
 
 class ArticleDetailView(DetailView):
     model = Article
+
+    def get(self, request, *args, **kwargs):
+        """
+        Если статья проходит модерацию, то ее может просматривать только автор
+        и персонал. Для остальных пользователей вернуть страницу 404.
+        """
+        obj = self.get_object()
+        user = request.user
+        context = {
+            'object': obj,
+        }
+
+        if not obj.is_published:
+            if user.is_authenticated:
+                if user == obj.author or user.is_personal:
+                    return render(
+                        request,
+                        'articles/article_detail.html',
+                        context=context,
+                    )
+                else:
+                    raise Http404
+            else:
+                raise Http404
+        return render(request, 'articles/article_detail.html', context=context)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
