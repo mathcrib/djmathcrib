@@ -6,9 +6,7 @@
     <div class="col d-md-none d-lg-block">
         {% include 'sidebar.html' %}
     </div>
-    <div class="col-9 blog-main">
-
-        <div class="container">
+    <div class="col-9">
             <form method="get" action="{% url 'search' %}">
                 <div class="input-group mb-3">
                     <input type="search" class="form-control" id="text" name="text" placeholder="Поиск">
@@ -17,52 +15,31 @@
                     </div>
                 </div>
 
-                <div class="text-center">
-                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse"
-                        data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseExample">
-                        Фильтры
-                    </button>
-                </div>
 
-                </p>
-                <div class="collapse" id="collapseFilter">
-                    <div class="card card-body">
-
-                        <div class="form-group">
-                            <div class="form-check">
-                                {{ filter.form.separate|addclass:"form-check-input" }}
-                                <label class="form-check-label" for="{{ filter.form.separate.id_for_label }}"> Искать
-                                    отдельно каждое слово</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="{{ filter.form.author.id_for_label }}">Автор</label>
-                            {{ filter.form.author|addclass:"form-control" }}
-                        </div>
-
-                        <fieldset class="form-group">
-                            <div class="row">
-                                <legend class="col-form-label col-sm-3 pt-0">{{ filter.form.read_time.label }}</legend>
-                                <div class="col-sm-9">
-                                    {% for choice in filter.form.read_time %}
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
-                                            <span class="radio">{{ choice.tag }}</span>
-                                            {{ choice.choice_label }}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </fieldset>
+                <div class="form-row align-items-center">
+                    <div class="form-group col-md-4">
+                        <label for="{{ filter.form.author.id_for_label }}">Автор</label>
+                        {{ filter.form.author|addclass:"form-control" }}
                     </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="{{ filter.form.read_time.label }}">Время чтения</label>
+                        {{ filter.form.read_time|addclass:"form-control" }}
+                    </div>
+
+                    <div class="col-auto">
+                        <div class="form-check mb-2">
+                            {{ filter.form.separate|addclass:"form-check-input" }}
+                            <label class="form-check-label" for="{{ filter.form.separate.id_for_label }}">Искать
+                                отдельно каждое слово</label>
+                        </div>
+                    </div>
+
                 </div>
             </form>
-        </div>
-        <hr>
 
         {% include 'articles/articles.html' %}
+
     </div>
 </div>
 

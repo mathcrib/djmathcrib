@@ -26,7 +26,6 @@ class ArticleFilter(filters.FilterSet):
     )
     read_time = filters.ChoiceFilter(
         choices=ARTICLE_LENGTH,
-        widget=forms.RadioSelect,
         empty_label='любое',
         method='filter_read_time',
     )
