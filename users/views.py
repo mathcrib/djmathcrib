@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView
@@ -10,9 +11,12 @@ from .models import InvitedUser
 from .utilits import invite_key_generator
 
 
-class ModeratorControlPanelView(View):
+class ModeratorControlPanelView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_personal:
+            raise Http404
+
         articles = Article.objects.filter(
             is_category=False
         ).order_by('is_published', '-created')
@@ -22,15 +26,21 @@ class ModeratorControlPanelView(View):
         return render(request, 'users/control_panel.html', context=context)
 
 
-class InvitationView(View):
+class InvitationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_personal:
+            raise Http404
+
         context = {
             'invited': InvitedUser.objects.all()
         }
         return render(request, 'users/invitation.html', context=context)
 
     def post(self, request, *args, **kwargs):
+        if not request.user.is_personal:
+            raise Http404
+
         invite_key = invite_key_generator(length=20)
         invite_url = request.build_absolute_uri(
             f'/users/signup/?key={invite_key}',
