@@ -13,6 +13,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', home_page, name='home_page'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,
