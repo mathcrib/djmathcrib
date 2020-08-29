@@ -23,3 +23,5 @@ setup.cfg
 db.sqlite3
 /mathcrib/settings/local.py
 *.env
+gunicorn_config.py
+/bin/
