@@ -2,6 +2,7 @@
 env/
 venv/
 sent_emails/
+*/migrations/
 
 __pycache__/
 *.py[cod]
