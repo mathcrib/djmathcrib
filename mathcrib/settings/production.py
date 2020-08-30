@@ -1,11 +1,11 @@
-import django_heroku
-
 from .base import *
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS = ['178.154.226.7', ]
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -19,5 +19,3 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-django_heroku.settings(locals())
