@@ -5,7 +5,7 @@ load_dotenv()
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['178.154.226.7', ]
+ALLOWED_HOSTS = ['178.154.226.7', '0.0.0.0', 'mathcrib.space']
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
