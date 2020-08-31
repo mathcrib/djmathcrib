@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView
@@ -42,8 +43,8 @@ class InvitationView(LoginRequiredMixin, View):
             raise Http404
 
         invite_key = invite_key_generator(length=20)
-        host = request.META.get('HTTP_HOST')
-        invite_url = host + f'/users/signup/?key={invite_key}'
+        site = get_current_site(request)
+        invite_url = 'https://' + site.domain + f'/users/signup/?key={invite_key}'
 
         InvitedUser.objects.create(
             inviting=request.user,
