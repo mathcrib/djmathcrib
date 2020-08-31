@@ -9,7 +9,11 @@ class UserRole(models.TextChoices):
 
 
 class User(AbstractUser):
-    email = models.EmailField(_('email'), blank=False)
+    email = models.EmailField(
+        _('email'),
+        blank=False,
+        unique=True,
+    )
     role = models.CharField(
         choices=UserRole.choices,
         default=UserRole.AUTHOR,
