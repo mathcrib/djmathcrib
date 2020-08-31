@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">Зарегистрироваться</div>
             <div class="card-body">
-
+                    {{ key }}
                     {% for error in form.errors %}
                         <div class="alert alert-danger" role="alert">
                             {{ error }}
@@ -20,7 +20,10 @@
                     {% csrf_token %}
 
                     {% for field in form %}
-                        <div class="form-group row" aria-required="{% if field.required %}true{% else %}false{% endif %}">
+                        {% if field.is_hidden %}
+                            {{ field }}
+                        {% else %}
+                            <div class="form-group row" aria-required="{% if field.required %}true{% else %}false{% endif %}">
                                 <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-right">{{ field.label }}{% if field.required %}<span class="required">*</span>{% endif %}</label>
                                 <div class="col-md-6">
                                     {{ field|addclass:"form-control" }}
@@ -28,9 +31,9 @@
                                     <small id="{{ field.id_for_label }}-help" class="form-text text-muted">{{ field.help_text|safe }}</small>
                                     {% endif %}
                                 </div>
-                        </div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
-                    <input type="hidden" name="key" value="{{ key }}">
                     <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">
                                 Зарегистрироваться

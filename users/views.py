@@ -44,7 +44,7 @@ class InvitationView(LoginRequiredMixin, View):
 
         invite_key = invite_key_generator(length=20)
         site = get_current_site(request)
-        invite_url = 'https://' + site.domain + f'/users/signup/?key={invite_key}'
+        invite_url = site.domain + f'/users/signup/?key={invite_key}'
 
         InvitedUser.objects.create(
             inviting=request.user,
@@ -68,8 +68,7 @@ class SignUpView(CreateView):
         invite = get_object_or_404(InvitedUser, invite_key=key)
         if invite.invited is None:
             context = {
-                'form': CreationForm(),
-                'key': key,
+                'form': CreationForm(initial={'invite_key': key})
             }
             return render(request, 'users/signup.html', context=context)
         raise Http404('Такой страницы не существует.')
@@ -81,18 +80,19 @@ class SignUpView(CreateView):
         Создаем пользователя, а затем отмечаем, что регистрация по данному
         ключу состоялась.
         """
-        key = request.POST.get('key', None)
-        if key:
-            form = CreationForm(request.POST)
+
+        form = CreationForm(request.POST)
+
+        if form.is_valid():
+            key = form.cleaned_data.get('invite_key', None)
             invite = get_object_or_404(
                 InvitedUser,
                 invite_key=key,
                 invited=None,
             )
-            if form.is_valid():
-                user = form.save()
-                invite.invited = user
-                invite.save()
-                return redirect('login')
-            return render(request, 'users/signup.html', {'form': form})
-        raise Http404('Такой страницы не существует.')
+
+            user = form.save()
+            invite.invited = user
+            invite.save()
+            return redirect('login')
+        return render(request, 'users/signup.html', {'form': form})
