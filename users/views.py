@@ -42,9 +42,9 @@ class InvitationView(LoginRequiredMixin, View):
             raise Http404
 
         invite_key = invite_key_generator(length=20)
-        invite_url = request.build_absolute_uri(
-            f'/users/signup/?key={invite_key}',
-        )
+        host = request.META.get('HTTP_HOST')
+        invite_url = host + f'/users/signup/?key={invite_key}'
+
         InvitedUser.objects.create(
             inviting=request.user,
             invite_url=invite_url,

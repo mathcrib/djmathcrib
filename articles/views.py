@@ -8,7 +8,7 @@ from .models import Article
 
 
 def home_page(request):
-    return render(request, "index.html")
+    return render(request, 'index.html')
 
 
 class ArticleListView(ListView):
@@ -42,6 +42,7 @@ class ArticleDetailView(DetailView):
                     raise Http404
             else:
                 raise Http404
+
         return render(request, 'articles/article_detail.html', context=context)
 
 
