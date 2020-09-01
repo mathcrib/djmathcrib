@@ -30,6 +30,11 @@
             </form>
         {% endif %}
         <ul class="navbar-nav">
+            {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'join' %}">Стать автором</a>
+                </li>
+            {% endif %}
             {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'article_create' %}">Добавить статью</a>
