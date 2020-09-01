@@ -7,11 +7,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 SITE_ID = 1
 
+PROJECT_EMAIL = 'mcs.mathcrib@gmail.com'
+
 # Application definition
 INSTALLED_APPS = [
     # project app
     'users',
     'articles',
+    'emails',
     # django app
     'django.contrib.admin',
     'django.contrib.auth',
