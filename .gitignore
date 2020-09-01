@@ -26,3 +26,4 @@ db.sqlite3
 *.env
 gunicorn_config.py
 /bin/
+sendgrid.env
