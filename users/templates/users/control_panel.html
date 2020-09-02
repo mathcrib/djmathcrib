@@ -8,19 +8,24 @@
     </div>
     <div class="col-9">
         <h2>Последние статьи</h2>
-        {% for article in articles %}
-
-            <div class="list-group">
-                <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action
-                   {% if not article.is_published %}list-group-item-info{% endif %}  ">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ article.title }}</h5>
-                        <small>Создано: {{ article.created|date }}</small>
+            {% for article in articles %}
+                <div class="row">
+                    <div class="list-group col-10">
+                        <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action
+                           {% if not article.is_published %}list-group-item-info{% endif %}  ">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ article.title }}</h5>
+                                <small>Создано: {{ article.created|date }}</small>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-
-        {% endfor %}
+                    <div class="col-2">
+                        <a href="{% url 'article_update' pk=article.pk %}">
+                            <button class="btn btn-primary">Редактировать</button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
     </div>
 </div>
 {% endblock %}
