@@ -18,9 +18,10 @@ class ModeratorControlPanelView(LoginRequiredMixin, View):
         if not request.user.is_personal:
             raise Http404
 
-        articles = Article.objects.filter(
-            is_category=False
-        ).order_by('is_published', '-created')
+        articles = Article.objects.filter(is_category=False).order_by(
+            'is_published',
+            '-created'
+        )
         context = {
             'articles': articles,
         }
