@@ -13,7 +13,9 @@ def home_page(request):
 
 class ArticleListView(ListView):
     model = Article
-    queryset = Article.published_objects.get_articles()
+    queryset = Article.published_objects.get_articles().select_related(
+        'author',
+    )
 
 
 class ArticleDetailView(DetailView):

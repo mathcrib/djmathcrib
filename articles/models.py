@@ -89,9 +89,6 @@ class Article(MPTTModel):
         verbose_name = _('cтатья')
         verbose_name_plural = _('cтатьи')
 
-    class MPTTMeta:
-        order_insertion_by = ('title',)
-
     def __str__(self):
         return self.title
 
