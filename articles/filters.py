@@ -1,11 +1,10 @@
 import re
 
+import django_filters as filters
 from django import forms
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-
-import django_filters as filters
 
 from .models import Article
 
@@ -19,7 +18,7 @@ ARTICLE_LENGTH = (
 
 
 class ArticleFilter(filters.FilterSet):
-    text = filters.CharFilter(method='filter_text')
+    text = filters.CharFilter(method='filter_text', widget=forms.TextInput(attrs={"type": "search", "placeholder": "Поиск"}))
     author = filters.ModelChoiceFilter(
         queryset=User.objects.all(),
         empty_label='все',
