@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 DEBUG = True
@@ -148,3 +152,9 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': ','.join(['mathjax', 'uploadwidget', 'uploadimage']),
     },
 }
+
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.getenv('SENDER_API_KEY')
