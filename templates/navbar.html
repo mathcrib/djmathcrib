@@ -41,8 +41,13 @@
                         </div>
                     </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Пользователь: {{ request.user }}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'profile' pk=request.user.pk %}">Профиль</a>
+                      <a class="dropdown-item" href="{% url 'memo' %}">Рекомендации</a>
+                      <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                    </div>
                 </li>
             {% endif %}
         </ul>
