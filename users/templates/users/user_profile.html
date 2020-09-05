@@ -4,10 +4,10 @@
 {% block content %}
 <div class="row">
     <div class="col-3">
-        <h2>Пользователь: {{ request.user }}</h2>
-        <p><b>Имя: </b>{{ request.user.first_name }}</p>
-        <p><b>Фамилия: </b>{{ request.user.last_name }}</p>
-        <p><b>Email: </b>{{ request.user.email }}</p>
+        <h2>Пользователь: {{ user.username }}</h2>
+        <p><b>Имя: </b>{{ user.first_name }}</p>
+        <p><b>Фамилия: </b>{{ user.last_name }}</p>
+        <p><b>Email: </b>{{ user.email }}</p>
     </div>
     <div class="col-9">
         <h2>Мои статьи</h2>

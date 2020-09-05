@@ -8,7 +8,7 @@ from django.views.generic.base import View
 from articles.models import Article
 
 from .forms import CreationForm
-from .models import InvitedUser
+from .models import InvitedUser, User
 from .utilits import invite_key_generator
 
 
@@ -103,8 +103,9 @@ class UserProfileView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
+        user = get_object_or_404(User, id=user_id)
 
-        if not request.user.is_authenticated or not user_id:
+        if request.user != user:
             raise Http404
 
         articles = Article.objects.filter(
@@ -115,5 +116,6 @@ class UserProfileView(LoginRequiredMixin, View):
         )
         context = {
             'articles': articles,
+            'user': user,
         }
         return render(request, 'users/user_profile.html', context=context)
