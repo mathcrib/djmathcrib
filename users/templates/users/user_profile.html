@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-3">
+        <h2>Пользователь: {{ request.user }}</h2>
+        <p><b>Имя: </b>{{ request.user.first_name }}</p>
+        <p><b>Фамилия: </b>{{ request.user.last_name }}</p>
+        <p><b>Email: </b>{{ request.user.email }}</p>
+    </div>
+    <div class="col-9">
+        <h2>Мои статьи</h2>
+            {% for article in articles %}
+                <div class="row">
+                    <div class="list-group col-10">
+                        <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ article.title }}</h5>
+                                <small>Статус:
+                                    {% if article.is_published %}
+                                        <span class="text-success">Опубликована</span>
+                                    {% else %}
+                                        <span class="text-danger">Проходит модерацию</span>
+                                    {% endif %}
+                                </small>
+                                <small>Создано: {{ article.created|date }}</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{% url 'article_update' pk=article.pk %}">
+                            <button class="btn btn-primary">Редактировать</button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock %}

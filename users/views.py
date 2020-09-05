@@ -97,3 +97,23 @@ class SignUpView(CreateView):
             invite.save()
             return redirect('login')
         return render(request, 'users/signup.html', {'form': form})
+
+
+class UserProfileView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+
+        if not request.user.is_authenticated or not user_id:
+            raise Http404
+
+        articles = Article.objects.filter(
+            author=user_id,
+            is_category=False
+        ).order_by(
+            '-created',
+        )
+        context = {
+            'articles': articles,
+        }
+        return render(request, 'users/user_profile.html', context=context)

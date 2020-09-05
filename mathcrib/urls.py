@@ -13,6 +13,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('users/', include('users.urls')),
     path('join-us/', views.flatpage, {'url': '/join-us/'}, name='join'),
+    path('memo/', views.flatpage, {'url': '/users/memo/'}, name='memo'),
     path('', home_page, name='home_page'),
 ]
 
