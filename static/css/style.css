@@ -9682,4 +9682,20 @@ body {
   margin-inline-end: 0;
 }
 
+blockquote {
+  font-style: italic;
+  font-family: Georgia, Times, "Times New Roman", serif;
+  padding: 2px 0;
+  border-style: solid;
+  border-color: #ccc;
+  border-width: 0;
+  margin: 10px 40px 10px 40px;
+}
+
+blockquote {
+  padding-left: 20px;
+  padding-right: 8px;
+  border-left-width: 5px;
+}
+
 /*# sourceMappingURL=style.css.map */
