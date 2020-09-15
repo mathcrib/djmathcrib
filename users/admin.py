@@ -17,7 +17,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         ('Персональная информация', {'fields': ('first_name', 'last_name')}),
-        ('Роль на сайте', {'fields': ('role',)}),
+        ('Роль на сайте', {'fields': ('role', 'is_superuser')}),
     )
 
     search_fields = ('email', 'username')

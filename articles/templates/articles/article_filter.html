@@ -9,7 +9,7 @@
     <div class="col-9">
             <form method="get" action="{% url 'search' %}">
                 <div class="input-group mb-3">
-                    <input type="search" class="form-control" id="text" name="text" placeholder="Поиск">
+                    {{ filter.form.text|addclass:"form-control" }}
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit">Поиск</button>
                     </div>
@@ -18,20 +18,19 @@
 
                 <div class="form-row align-items-center">
                     <div class="form-group col-md-4">
-                        <label for="{{ filter.form.author.id_for_label }}">Автор</label>
+                        {{ filter.form.author|addsuffix:"" }}
                         {{ filter.form.author|addclass:"form-control" }}
                     </div>
 
                     <div class="form-group col-md-4">
-                        <label for="{{ filter.form.read_time.label }}">Время чтения</label>
+                        {{ filter.form.read_time|addsuffix:"" }}
                         {{ filter.form.read_time|addclass:"form-control" }}
                     </div>
 
                     <div class="col-auto">
                         <div class="form-check mb-2">
                             {{ filter.form.separate|addclass:"form-check-input" }}
-                            <label class="form-check-label" for="{{ filter.form.separate.id_for_label }}">Искать
-                                отдельно каждое слово</label>
+                            {{ filter.form.separate|addsuffix:"" }}
                         </div>
                     </div>
 

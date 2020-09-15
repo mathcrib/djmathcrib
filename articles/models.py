@@ -11,28 +11,26 @@ from mptt.models import MPTTModel, TreeForeignKey
 User = get_user_model()
 
 
-class ArticleModelManager(TreeManager):
+class ArticleTreeManager(TreeManager):
     """
-    Кастомный менеджер запросов к БД.
+    Кастомный менеджер запросов к БД. Возвращаются только опубликованные
+    статьи.
     """
 
-    def published(self):
-        """
-        Возвращает queryset c опубликованными сущностями: категории, статьи.
-        """
-        return self.filter(is_published=True)
+    def get_queryset(self):
+        return super().get_queryset().filter(is_published=True)
 
     def get_category(self):
         """
         Возвращает queryset, содержащий только опубликованные категории.
         """
-        return self.filter(is_published=True, is_category=False)
+        return self.filter(is_category=True)
 
     def get_articles(self):
         """
         Возвращает queryset, содержащий только опубликованные статьи.
         """
-        return self.filter(is_published=True, is_category=False)
+        return self.filter(is_category=False)
 
 
 class Article(MPTTModel):
@@ -84,14 +82,12 @@ class Article(MPTTModel):
         verbose_name=_('Категория'),
     )
 
-    objects = ArticleModelManager()
+    objects = TreeManager()
+    published_objects = ArticleTreeManager()
 
     class Meta:
         verbose_name = _('cтатья')
         verbose_name_plural = _('cтатьи')
-
-    class MPTTMeta:
-        order_insertion_by = ('title',)
 
     def __str__(self):
         return self.title
@@ -108,6 +104,16 @@ class Article(MPTTModel):
         else:
             min = " минут"
         return str(self.read_time) + min
+
+    def get_children(self):
+        qs = super(Article, self).get_children()
+        return qs.filter(is_published=True)
+
+    def get_previous_sibling(self):
+        return super().get_previous_sibling(is_published=True)
+
+    def get_next_sibling(self):
+        return super().get_next_sibling(is_published=True)
 
     def save(self, *args, **kwargs):
         if not self.is_category:

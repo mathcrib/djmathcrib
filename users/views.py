@@ -10,7 +10,7 @@ from articles.models import Article
 from emails.sender import send_email
 
 from .forms import CreationForm
-from .models import InvitedUser
+from .models import InvitedUser, User
 from .utilits import invite_key_generator
 
 
@@ -20,9 +20,10 @@ class ModeratorControlPanelView(LoginRequiredMixin, View):
         if not request.user.is_personal:
             raise Http404
 
-        articles = Article.objects.filter(
-            is_category=False
-        ).order_by('is_published', '-created')
+        articles = Article.objects.filter(is_category=False).order_by(
+            'is_published',
+            '-created'
+        )
         context = {
             'articles': articles,
         }
@@ -107,3 +108,25 @@ class SignUpView(CreateView):
             send_email(*data)
             return redirect('login')
         return render(request, 'users/signup.html', {'form': form})
+
+
+class UserProfileView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(User, id=user_id)
+
+        if request.user != user:
+            raise Http404
+
+        articles = Article.objects.filter(
+            author=user_id,
+            is_category=False
+        ).order_by(
+            '-created',
+        )
+        context = {
+            'articles': articles,
+            'user': user,
+        }
+        return render(request, 'users/user_profile.html', context=context)

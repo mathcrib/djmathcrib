@@ -16,10 +16,12 @@
             <h2 class="blog-post-title">{{ object.title }}</h2>
             <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
             <p class="blog-post-meta">Время чтения: {{ object.get_full_read_time }} </p>
-            {% if request.user == object.author or request.user.is_personal %}
-                <p class="blog-post-meta"><a href="{% url 'article_update' pk=object.pk %}">Редактировать</a></p>
-            {% endif %}
             <p>{{ object.text|safe }}</p>
+            {% if request.user == object.author or request.user.is_personal %}
+                <a href="{% url 'article_update' pk=object.pk %}">
+                    <button type="button" class="btn btn-primary">Редактировать</button>
+                </a>
+            {% endif %}
         </div>
             {% else %}
                 {% for child in object.get_children %}

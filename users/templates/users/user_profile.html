@@ -4,17 +4,26 @@
 {% block content %}
 <div class="row">
     <div class="col-3">
-        <h2>Ошибки на сайте</h2>
+        <h2>Пользователь: {{ user.username }}</h2>
+        <p><b>Имя: </b>{{ user.first_name }}</p>
+        <p><b>Фамилия: </b>{{ user.last_name }}</p>
+        <p><b>Email: </b>{{ user.email }}</p>
     </div>
     <div class="col-9">
-        <h2>Последние статьи</h2>
+        <h2>Мои статьи</h2>
             {% for article in articles %}
                 <div class="row">
                     <div class="list-group col-10">
-                        <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action
-                           {% if not article.is_published %}list-group-item-info{% endif %}  ">
+                        <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ article.title }}</h5>
+                                <small>Статус:
+                                    {% if article.is_published %}
+                                        <span class="text-success">Опубликована</span>
+                                    {% else %}
+                                        <span class="text-danger">Проходит модерацию</span>
+                                    {% endif %}
+                                </small>
                                 <small>Создано: {{ article.created|date }}</small>
                             </div>
                         </a>
