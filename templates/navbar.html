@@ -37,7 +37,9 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Управление</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" href="{% url 'article_panel' %}">Статьи</a>
-                          <a class="dropdown-item" href="{% url 'invitations' %}">Приглашения</a>
+                            {% if request.user.is_administration %}
+                                <a class="dropdown-item" href="{% url 'invitations' %}">Приглашения</a>
+                            {% endif %}
                         </div>
                     </li>
                 {% endif %}
