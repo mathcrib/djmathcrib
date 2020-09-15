@@ -8,6 +8,8 @@
         <p><b>Имя: </b>{{ user.first_name }}</p>
         <p><b>Фамилия: </b>{{ user.last_name }}</p>
         <p><b>Email: </b>{{ user.email }}</p>
+        <p><b>Телеграм: </b>
+            <a href="https://t.me/{{ user.telegram }}" target="_blank">{{ user.telegram }}</a></p>
     </div>
     <div class="col-9">
         <h2>Мои статьи</h2>

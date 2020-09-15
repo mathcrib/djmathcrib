@@ -15,10 +15,29 @@ def validate_email(value):
         )
 
 
+def validate_telegram(value):
+    if value.startswith('@'):
+        raise ValidationError(
+            message=_('Введите username без @ в начале!'),
+            params={'value': value},
+        )
+
+
 class CreationForm(UserCreationForm):
     invite_key = forms.CharField(widget=forms.HiddenInput())
     email = forms.EmailField(validators=[validate_email])
+    telegram = forms.CharField(validators=[validate_telegram])
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'invite_key')
+        fields = (
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'telegram',
+            'invite_key',
+        )
+        help_texts = {
+            'telegram': 'Ведите username без @ в начале.',
+        }

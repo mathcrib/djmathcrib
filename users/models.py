@@ -21,6 +21,12 @@ class User(AbstractUser):
         max_length=50,
         verbose_name='Роль',
     )
+    telegram = models.CharField(
+        max_length=100,
+        verbose_name='Телеграм аккаунт',
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = 'Пользователь'

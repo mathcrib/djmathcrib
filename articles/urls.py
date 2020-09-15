@@ -1,9 +1,14 @@
 from django.urls import path
+
 from django_filters.views import FilterView
 
 from .filters import ArticleFilter
-from .views import (ArticleCreateView, ArticleDetailView, ArticleListView,
-                    ArticleUpdateView)
+from .views import (
+    ArticleCreateView,
+    ArticleDetailView,
+    ArticleListView,
+    ArticleUpdateView
+)
 
 urlpatterns = [
     path('<int:pk>/read/', ArticleDetailView.as_view(), name='article_detail'),

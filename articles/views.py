@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
+from .forms import AuthorUpdateForm, PersonalUpdateForm
 from .models import Article
 
 
@@ -26,12 +27,18 @@ class ArticleDetailView(DetailView):
         Для всех доступны только опубликованные статьи. Статью на модерации
         может просматривать только автор и персонал сайта.
         """
-        qs = super().get_queryset()
+        id = self.kwargs.get('pk')
+        qs = Article.objects.filter(id=id)
+
+        obj = qs.first()
 
         if self.request.user.is_authenticated:
-            if self.request.user.is_personal or self.request.user == qs.author:
+            if self.request.user.is_personal or self.request.user == obj.author:
                 return qs
-        return qs.filter(is_published=True)
+        if obj.is_published:
+            return qs
+        else:
+            raise Http404
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
@@ -67,3 +74,18 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if not self.request.user.is_personal:
             form.instance.is_published = False
         return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        obj = self.get_object()
+
+        if self.request.user == obj.author:
+            return AuthorUpdateForm()
+        elif self.request.user.is_personal:
+            return PersonalUpdateForm()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        obj = self.get_object()
+        if self.request.user.is_personal:
+            context['author'] = obj.author
+        return context

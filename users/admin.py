@@ -16,7 +16,9 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('role',)
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('Персональная информация', {'fields': ('first_name', 'last_name')}),
+        ('Персональная информация', {
+            'fields': ('first_name', 'last_name', 'telegram')
+        }),
         ('Роль на сайте', {'fields': ('role', 'is_superuser')}),
     )
 

@@ -1,6 +1,11 @@
 from django.urls import path
 
-from .views import InvitationView, ModeratorControlPanelView, SignUpView, UserProfileView
+from .views import (
+    InvitationView,
+    ModeratorControlPanelView,
+    SignUpView,
+    UserProfileView
+)
 
 urlpatterns = [
     path('panel/', ModeratorControlPanelView.as_view(), name='article_panel'),
