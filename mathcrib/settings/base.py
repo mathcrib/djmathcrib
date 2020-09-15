@@ -158,3 +158,4 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = os.getenv('SENDER_API_KEY')
+DEFAULT_FROM_EMAIL = 'mcs.mathcrib@gmail.com'
