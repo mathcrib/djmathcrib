@@ -57,7 +57,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
-    fields = ('title', 'text', 'parent', 'is_published')
+    form_class = AuthorUpdateForm
+    personal_form_class = PersonalUpdateForm
     login_url = '/login/'
 
     def test_func(self):
@@ -75,17 +76,10 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             form.instance.is_published = False
         return super().form_valid(form)
 
-    def get_form(self, form_class=None):
-        obj = self.get_object()
-
-        if self.request.user == obj.author:
-            return AuthorUpdateForm()
-        elif self.request.user.is_personal:
-            return PersonalUpdateForm()
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         obj = self.get_object()
         if self.request.user.is_personal:
             context['author'] = obj.author
+            context['form'] = self.get_form(self.personal_form_class)
         return context
