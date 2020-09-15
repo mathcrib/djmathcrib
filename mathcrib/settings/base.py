@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 DEBUG = True
@@ -7,11 +11,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 SITE_ID = 1
 
+PROJECT_EMAIL = 'mcs.mathcrib@gmail.com'
+
 # Application definition
 INSTALLED_APPS = [
     # project app
     'users',
     'articles',
+    'emails',
     # django app
     'django.contrib.admin',
     'django.contrib.auth',
@@ -146,3 +153,10 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': ','.join(['mathjax', 'uploadwidget', 'uploadimage']),
     },
 }
+
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.getenv('SENDER_API_KEY')
+DEFAULT_FROM_EMAIL = 'mcs.mathcrib@gmail.com'

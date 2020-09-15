@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import Http404
@@ -6,6 +7,7 @@ from django.views.generic import CreateView
 from django.views.generic.base import View
 
 from articles.models import Article
+from emails.sender import send_email
 
 from .forms import CreationForm
 from .models import InvitedUser, User
@@ -95,6 +97,15 @@ class SignUpView(CreateView):
             user = form.save()
             invite.invited = user
             invite.save()
+
+            data = (
+                settings.DEFAULT_FROM_EMAIL,
+                user.email,
+                'Добро пожаловать!',
+                '''<h1>Привет!</h1>
+                    <p>Добро пожаловать в команду <a href="https://mathcrib.space/">mathcrib.space</a>!</p>'''
+            )
+            send_email(*data)
             return redirect('login')
         return render(request, 'users/signup.html', {'form': form})
 
