@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 class UserRole(models.TextChoices):
     AUTHOR = 'author'
     MODERATOR = 'moderator'
+    EDITOR = 'editor'
 
 
 class User(AbstractUser):
@@ -27,6 +28,11 @@ class User(AbstractUser):
 
     @property
     def is_personal(self):
+        return (self.role in (UserRole.MODERATOR, UserRole.EDITOR)
+                or self.is_superuser)
+
+    @property
+    def is_administration(self):
         return self.role == UserRole.MODERATOR or self.is_superuser
 
 

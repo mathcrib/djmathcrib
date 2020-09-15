@@ -33,7 +33,7 @@ class ModeratorControlPanelView(LoginRequiredMixin, View):
 class InvitationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_personal:
+        if not request.user.is_administration:
             raise Http404
 
         context = {
