@@ -143,14 +143,14 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Mathjax'],
             {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
             {'name': 'insert',
-             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Blockquote', ]},
-            {'name': 'styles', 'items': ['CopyFormatting', 'Styles', 'Format', 'Font', 'FontSize']},
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Blockquote', 'CodeSnippet', ]},
+            {'name': 'styles', 'items': ['CopyFormatting', 'Styles', 'Format']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
             ['-', 'Source', 'Preview', 'Maximize']
         ],
         'toolbar': 'Basic',
         'mathJaxLib': '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML',
-        'extraPlugins': ','.join(['mathjax', 'uploadwidget', 'uploadimage']),
+        'extraPlugins': ','.join(['mathjax', 'uploadwidget', 'uploadimage', 'codesnippet']),
     },
 }
 
