@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView
 from django.views.generic.base import View
@@ -18,7 +18,7 @@ class ModeratorControlPanelView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_personal:
-            raise Http404
+            return HttpResponseForbidden()
 
         articles = Article.objects.filter(is_category=False).order_by(
             'is_published',
@@ -34,7 +34,7 @@ class InvitationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_administration:
-            raise Http404
+            return HttpResponseForbidden()
 
         context = {
             'invited': InvitedUser.objects.all()
@@ -42,8 +42,8 @@ class InvitationView(LoginRequiredMixin, View):
         return render(request, 'users/invitation.html', context=context)
 
     def post(self, request, *args, **kwargs):
-        if not request.user.is_personal:
-            raise Http404
+        if not request.user.is_administration:
+            return HttpResponseForbidden()
 
         invite_key = invite_key_generator(length=20)
         site = get_current_site(request)
@@ -117,7 +117,7 @@ class UserProfileView(LoginRequiredMixin, View):
         user = get_object_or_404(User, id=user_id)
 
         if request.user != user:
-            raise Http404
+            return HttpResponseForbidden()
 
         articles = Article.objects.filter(
             author=user_id,

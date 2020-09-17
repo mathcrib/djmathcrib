@@ -3,6 +3,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
+from django.urls import reverse
 
 from .forms import AuthorUpdateForm, PersonalUpdateForm
 from .models import Article
@@ -45,7 +46,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     fields = ('title', 'text', 'parent')
     redirect_field_name = 'next'
-    login_url = '/login/'
+    login_url = '/auth/login/'
 
     def form_valid(self, form):
         """
@@ -59,7 +60,8 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
     form_class = AuthorUpdateForm
     personal_form_class = PersonalUpdateForm
-    login_url = '/login/'
+    redirect_field_name = 'next'
+    login_url = '/auth/login/'
 
     def test_func(self):
         """
