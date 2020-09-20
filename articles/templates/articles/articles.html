@@ -3,7 +3,11 @@
     <h2 class="blog-post-title">
         <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
     </h2>
-    <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
+    <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор:
+        {% if object.author.get_full_name %}{{ object.author.get_full_name }}
+        {% else %}{{ object.author }}
+        {% endif %}
+    </a></p>
     {% if not object.is_category %}
         <p class="blog-post-meta">Время чтения: {{ object.get_full_read_time }} </p>
     {% endif %}

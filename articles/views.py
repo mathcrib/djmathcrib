@@ -1,9 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse
 
 from .forms import AuthorUpdateForm, PersonalUpdateForm
 from .models import Article

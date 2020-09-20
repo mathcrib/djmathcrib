@@ -14,7 +14,11 @@
             {% endif %}
         <div class="blog-post">
             <h2 class="blog-post-title">{{ object.title }}</h2>
-            <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор: {{ object.author }}</a></p>
+            <p class="blog-post-meta">{{ object.created|date }} <a href="#">Автор:
+                {% if object.author.get_full_name %}{{ object.author.get_full_name }}
+                {% else %}{{ object.author }}
+                {% endif %}
+            </a></p>
             <p class="blog-post-meta">Время чтения: {{ object.get_full_read_time }} </p>
             <p>{{ object.text|safe }}</p>
             {% if request.user == object.author or request.user.is_personal %}
