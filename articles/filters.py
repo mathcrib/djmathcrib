@@ -19,7 +19,10 @@ ARTICLE_LENGTH = (
 
 
 class ArticleFilter(filters.FilterSet):
-    text = filters.CharFilter(method='filter_text', widget=forms.TextInput(attrs={"type": "search", "placeholder": "Поиск"}))
+    text = filters.CharFilter(
+        method='filter_text',
+        widget=forms.TextInput(attrs={"type": "search", "placeholder": "Поиск"})
+    )
     author = filters.ModelChoiceFilter(
         queryset=User.objects.all(),
         empty_label='все',
