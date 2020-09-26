@@ -57,8 +57,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
-    form_class = AuthorUpdateForm
-    personal_form_class = PersonalUpdateForm
+    form_class = PersonalUpdateForm
+    author_form_class = AuthorUpdateForm
     redirect_field_name = 'next'
     login_url = '/auth/login/'
 
@@ -80,7 +80,7 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         obj = self.get_object()
-        if self.request.user.is_personal:
+        if not self.request.user.is_personal:
             context['author'] = obj.author
-            context['form'] = self.get_form(self.personal_form_class)
+            context['form'] = self.get_form(self.author_form_class)
         return context
