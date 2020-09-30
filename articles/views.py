@@ -4,10 +4,17 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
+from loguru import logger
+
 from .forms import AuthorUpdateForm, PersonalUpdateForm
 from .models import Article
 
 
+logger.add('debug.log', format='{time} {level} {message}', level='DEBUG',
+           rotation='1MB', compression='zip')
+
+
+@logger.catch
 def home_page(request):
     return render(request, 'index.html')
 
@@ -22,6 +29,7 @@ class ArticleListView(ListView):
 class ArticleDetailView(DetailView):
     model = Article
 
+    @logger.catch
     def get_queryset(self):
         """
         Для всех доступны только опубликованные статьи. Статью на модерации

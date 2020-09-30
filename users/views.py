@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView
 from django.views.generic.base import View
 
+from loguru import logger
+
 from articles.models import Article
 from emails.sender import send_email
 
@@ -14,8 +16,13 @@ from .models import InvitedUser, User
 from .utilits import invite_key_generator
 
 
+logger.add('debug.log', format='{time} {level} {message}', level='DEBUG',
+           rotation='1MB', compression='zip')
+
+
 class ModeratorControlPanelView(LoginRequiredMixin, View):
 
+    @logger.catch
     def get(self, request, *args, **kwargs):
         if not request.user.is_personal:
             return HttpResponseForbidden()
@@ -32,6 +39,7 @@ class ModeratorControlPanelView(LoginRequiredMixin, View):
 
 class InvitationView(LoginRequiredMixin, View):
 
+    @logger.catch
     def get(self, request, *args, **kwargs):
         if not request.user.is_administration:
             return HttpResponseForbidden()
@@ -41,6 +49,7 @@ class InvitationView(LoginRequiredMixin, View):
         }
         return render(request, 'users/invitation.html', context=context)
 
+    @logger.catch
     def post(self, request, *args, **kwargs):
         if not request.user.is_administration:
             return HttpResponseForbidden()
@@ -60,6 +69,7 @@ class InvitationView(LoginRequiredMixin, View):
 class SignUpView(CreateView):
     form = CreationForm()
 
+    @logger.catch
     def get(self, request, *args, **kwargs):
         """
         Перейти на страницу регистрации можно только с валидным ключом. Ключ
@@ -76,6 +86,7 @@ class SignUpView(CreateView):
             return render(request, 'users/signup.html', context=context)
         raise Http404('Такой страницы не существует.')
 
+    @logger.catch
     def post(self, request, *args, **kwargs):
         """
         Проверяем, что запись с переданным ключом существует в базе, и что по
@@ -112,6 +123,7 @@ class SignUpView(CreateView):
 
 class UserProfileView(LoginRequiredMixin, View):
 
+    @logger.catch
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(User, id=user_id)
