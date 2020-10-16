@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['178.154.226.7', '0.0.0.0', 'mathcrib.space']
+ALLOWED_HOSTS = ['5.63.155.174', '0.0.0.0', 'mathcrib.space']
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
